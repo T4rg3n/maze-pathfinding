@@ -26,10 +26,23 @@ def mazegen(length: int = 16, width: int = 16, seed: int = 42) -> list[list[str]
     visited: set[tuple[int, int]] = set()
 
     def carve(row: int, col: int) -> None:
+        """Recursively carve a passage from (row, col) by visiting unvisited neighbours.
+
+        Marks the cell as visited and open, then tries each cardinal direction (step 2)
+        to reach a neighbour cell. When a valid neighbour is found, the wall between
+        the current cell and that neighbour is removed and carving continues from there.
+
+        Args:
+            row: Row index of the current cell (odd-indexed interior cell).
+            col: Column index of the current cell (odd-indexed interior cell).
+        """
         visited.add((row, col))
         maze[row][col] = '.'
 
+        # Define the 4 cardinal directions (up, down, left, right)
         directions = [(0, 2), (0, -2), (2, 0), (-2, 0)]
+
+        # Shuffle the directions to randomise the order in which we check the neighbours
         rng.shuffle(directions)
 
         for dr, dc in directions:
