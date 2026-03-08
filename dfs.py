@@ -1,5 +1,3 @@
-
-
 def dfs(maze: list[list[str]]) -> list[list[str]] | tuple[list[list[str]], list[tuple[int, int]]]:
     """
     Depth First Search algorithm to solve the maze.
@@ -8,7 +6,7 @@ def dfs(maze: list[list[str]]) -> list[list[str]] | tuple[list[list[str]], list[
     """
     stack = []
     visited: set[tuple[int, int]] = set()
-    visit_order: list[tuple[int, int]] = []
+    visit_order: list[tuple[int, int]] = [] # Used for animation
 
     # Find the start position (S)
     for row in range(len(maze)):

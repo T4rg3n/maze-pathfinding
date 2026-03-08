@@ -3,7 +3,7 @@ import time
 from dfs import dfs
 from bfs import bfs
 from astar import astar
-from animation import run_animation, visited_frames_from_order
+from animation import run_animation
 
 def print_maze(maze: list[list[str]]) -> None:
     """Print the maze to the console with spaces between cells."""
@@ -22,13 +22,11 @@ def run_pathfinding(algorithm: int) -> None:
     match algorithm:
         case 1:
             start_time = time.time()
-            result = dfs(maze)
-            maze, visit_order = result
+            maze, visit_order = dfs(maze)
             end_time = time.time()
             print(f"DFS time: {end_time - start_time} seconds")
-            frames = visited_frames_from_order(visit_order)
-            if frames:
-                run_animation(maze, frames)
+            if visit_order:
+                run_animation(maze, visit_order)
         case 2:
             start_time = time.time()
             bfs(maze)
@@ -50,10 +48,10 @@ def run_pathfinding(algorithm: int) -> None:
 def main() -> None:
     """Display the algorithm selection menu and run the chosen option."""
     menu = {
-        1: 'DFS (Depth First Search)',
-        2: 'BFS (Breadth First Search)',
-        3: 'A*',
-        4: 'Benchmark (outputs CSV)',
+        1: 'Visualize DFS (Depth First Search)',
+        2: 'Visualize BFS (Breadth First Search)',
+        3: 'Visualize A*',
+        4: 'Benchmark all algorithms',
     }
 
     while True:
@@ -61,7 +59,7 @@ def main() -> None:
         for key, name in menu.items():
             print(f'  {key}. {name}')
 
-        choice = input('Enter your choice (1-3): ').strip()
+        choice = input('Enter your choice (1-4): ').strip()
         if choice in ('1', '2', '3', '4'):
             run_pathfinding(int(choice))
             break
