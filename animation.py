@@ -9,7 +9,7 @@ Controls:
   - d: next step
   - s: first step
   - e: last step
-  - q: quit
+  - q: quit to summary
 """
 
 import os
@@ -21,6 +21,8 @@ _WHITE = "\033[37m"
 _GRAY = "\033[90m"
 _LIGHT_GRAY = "\033[97m"
 _RESET = "\033[0m"
+_YELLOW = "\033[33m"
+_BLUE = "\033[34m"
 
 # 256-color yellow/gold gradient (dark → bright)
 _YELLOW_GRADIENT = [220, 221, 222, 223, 224, 226]
@@ -170,3 +172,34 @@ def run_animation(
             step = 0
         if key == "e":
             step = total - 1
+
+def print_maze_colored(maze: list[list[str]]) -> None:
+    """Print the maze with colored cells :
+    p -> yellow
+    * -> blue
+    x -> gray
+    S -> red
+    G -> green
+    # -> white
+    . -> gray
+    """
+    for row in maze:
+        for cell in row:
+            match cell:
+                case "p":
+                    print(f"{_YELLOW}{cell}{_RESET}", end=" ")
+                case "x":
+                    print(f"{_GRAY}{cell}{_RESET}", end=" ")
+                case "S":
+                    print(f"{_RED}{cell}{_RESET}", end=" ")
+                case "G":
+                    print(f"{_GREEN}{cell}{_RESET}", end=" ")
+                case "#":
+                    print(f"{_WHITE}{cell}{_RESET}", end=" ")
+                case ".":
+                    print(f"{_GRAY}{cell}{_RESET}", end=" ")
+                case "*":
+                    print(f"{_BLUE}{cell}{_RESET}", end=" ")
+                case _:
+                    print(cell, end=" ")
+        print()
