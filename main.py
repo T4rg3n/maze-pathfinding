@@ -1,5 +1,8 @@
 from mazegen import mazegen
 
+from dfs import dfs
+from bfs import bfs
+from astar import astar
 
 def print_maze(maze: list[list[str]]) -> None:
     """Print the maze to the console with spaces between cells."""
@@ -7,13 +10,23 @@ def print_maze(maze: list[list[str]]) -> None:
         print(' '.join(row))
 
 
-def run_pathfinding(choice: int) -> None:
+def run_pathfinding(algorithm: int) -> None:
     """Generate and display a maze.
 
     The ``choice`` parameter is reserved for future pathfinding implementations
     (DFS, BFS, A*) that will each solve the maze differently.
     """
     maze = mazegen()
+
+    match algorithm:
+        case 1:
+            dfs(maze)
+        case 2:
+            bfs(maze)
+        case 3:
+            astar(maze)
+        case _:
+            raise ValueError(f"Invalid choice: {algorithm}")
     print()
     print_maze(maze)
 
