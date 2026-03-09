@@ -9,6 +9,7 @@ Controls:
   - d: next step
   - s: first step
   - e: last step
+  - Enter: skip to end and exit
   - q: quit to summary
 """
 
@@ -97,7 +98,7 @@ def _print_frame(
                 rendered_row.append(_colorize_cell(ch))
         print(" ".join(rendered_row))
     print()
-    print(f"Step {step + 1} / {total}  (a: prev  d: next  s: first  e: last  q: quit)")
+    print(f"Step {step + 1} / {total}  (a: prev  d: next  s: first  e: last  Enter: skip  q: quit)")
 
 
 def _read_key() -> str:
@@ -116,14 +117,18 @@ def _read_key() -> str:
         ch = msvcrt.getch()
         if ch in (b"q", b"Q"):
             return "q"
+        if ch in (b"\r", b"\n"):
+            return "enter"
         try:
             return ch.decode(errors="ignore").lower()
         except Exception:
             return ""
 
-    # Non-Windows: simple line-based input
+    # Non-Windows: simple line-based input (Enter alone returns "enter")
     cmd = input().strip().lower()
-    return cmd[0] if cmd else ""
+    if not cmd:
+        return "enter"
+    return cmd[0]
 
 
 def run_animation(
@@ -169,6 +174,12 @@ def run_animation(
             continue
 
         if key == "q":
+            break
+        if key == "enter":
+            step = total - 1
+            visited = visited_frames[step]
+            display = _render_maze(maze, visited, visited_char=visited_char)
+            _print_frame(display, step, total, first_visit, max_step, title=title)
             break
         if key == "a" and step > 0:
             step -= 1

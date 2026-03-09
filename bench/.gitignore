@@ -1,0 +1,4 @@
+*
+!.gitignore
+!run_benchmarks.py
+!benchmarks.csv

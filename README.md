@@ -3,8 +3,12 @@
 A Python console application that generates mazes and lets you choose a pathfinding algorithm to solve them.
 
 You can chose between two modes :
-- Visualization : Step by step visualization of the pathfinding process
-- Benchmark : Run each algorithm 100 times and compare their performance.
+- Visualization on 4 panels : 
+  1. Visited path visualization
+  2. Solution path visualization
+  3. Statistics and solution path coordinates
+  4. Visited path interactive visualization 
+- Benchmark : Run each algorithm 100 times and compare their performance. Generates a CSV file with the results.
 
 ## File tree
 
