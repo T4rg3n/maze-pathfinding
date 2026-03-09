@@ -1,9 +1,13 @@
-def dfs(maze: list[list[str]]) -> tuple[list[list[str]], list[tuple[int, int]], list[tuple[int, int]]]:
+import time
+
+
+def dfs(maze: list[list[str]]) -> tuple[list[list[str]], list[tuple[int, int]], list[tuple[int, int]], float]:
     """
     Depth First Search algorithm to solve the maze.
 
-    Uses a stack
+    Uses a stack. Returns (maze, visit_order, solution_path, time_us).
     """
+    start = time.perf_counter()
     stack = []
     visited: set[tuple[int, int]] = set()
     visit_order: list[tuple[int, int]] = []  # Used for animation
@@ -61,6 +65,8 @@ def dfs(maze: list[list[str]]) -> tuple[list[list[str]], list[tuple[int, int]], 
                         current = parent[current]
                     path_back.append(current)  # start
                     solution_path = list(reversed(path_back))
-                    return maze, visit_order, solution_path
+                    time_us = (time.perf_counter() - start) * 1_000_000
+                    return maze, visit_order, solution_path, time_us
 
-    return maze, visit_order, []
+    time_us = (time.perf_counter() - start) * 1_000_000
+    return maze, visit_order, [], time_us

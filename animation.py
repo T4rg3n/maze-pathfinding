@@ -75,10 +75,14 @@ def _print_frame(
     total: int,
     first_visit: dict[tuple[int, int], int],
     max_step: int,
+    title: str | None = None,
 ) -> None:
     """Print the maze and step indicator to the console with colors."""
     # Clear screen and move cursor home (works on Windows and most terminals)
     print("\033[2J\033[H", end="")
+    if title:
+        print(title)
+        print()
     for r, row in enumerate(maze):
         rendered_row: list[str] = []
         for c, ch in enumerate(row):
@@ -126,6 +130,7 @@ def run_animation(
     maze: list[list[str]],
     visit_order: list[tuple[int, int]],
     visited_char: str = "x",
+    title: str | None = None,
 ) -> None:
     """Display the maze and let the user scroll through visited cells with key commands.
 
@@ -134,6 +139,7 @@ def run_animation(
         visit_order: Ordered list of (row, col) pairs giving the order in which
             the algorithm visited cells.
         visited_char: Character used to mark visited cells (default 'x').
+        title: Optional title shown above the maze (e.g. "Maze with exploration animation").
     """
     # Build cumulative visited sets for each step, starting with an empty frame,
     # and record the first step at which each cell was visited.
@@ -156,7 +162,7 @@ def run_animation(
     while True:
         visited = visited_frames[step]
         display = _render_maze(maze, visited, visited_char=visited_char)
-        _print_frame(display, step, total, first_visit, max_step)
+        _print_frame(display, step, total, first_visit, max_step, title=title)
 
         key = _read_key()
         if not key:
